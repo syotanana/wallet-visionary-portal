@@ -1,22 +1,26 @@
-import { Bell, CreditCard, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 
 const WalletHeader = () => {
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username") || "User";
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("username");
+    navigate("/login");
+  };
+
   return (
-    <header className="flex items-center justify-between mb-8 animate-fade-in">
-      <div className="flex items-center gap-2">
-        <h1 className="text-2xl font-bold">Wallet</h1>
+    <header className="flex justify-between items-center mb-8 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold">Welcome, {username}</h1>
+        <p className="text-muted-foreground">Manage your crypto assets</p>
       </div>
-      <div className="flex items-center gap-4">
-        <button className="p-2 hover:bg-secondary rounded-full transition-colors">
-          <CreditCard className="w-5 h-5" />
-        </button>
-        <button className="p-2 hover:bg-secondary rounded-full transition-colors">
-          <Bell className="w-5 h-5" />
-        </button>
-        <button className="p-2 hover:bg-secondary rounded-full transition-colors">
-          <Settings className="w-5 h-5" />
-        </button>
-      </div>
+      <Button variant="ghost" size="icon" onClick={handleLogout}>
+        <LogOut className="h-5 w-5" />
+      </Button>
     </header>
   );
 };
